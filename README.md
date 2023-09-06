@@ -1,1 +1,3 @@
 # IsraSC
+
+Nama: ISRA SEPTIA CAHYANI
