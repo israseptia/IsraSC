@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tugas 2 Javascript</title>
+    </head>
+    <body>
+        <marquee onmouseover="stop()" onmouseout="start()">
+            <h3>Isra Septia Cahyani_FDW_1</h3>
+        </marquee>
+        <hr />
+        <script>
+            var nama = "Ridwan";
+            var jabatan = "Manager";
+            var status = "menikah";
+            var gaji;
+            
+            if (jabatan == "Manager")
+                gaji = 15000000;
+            else if (jabatan == "Asisten Manager")
+                gaji = 10000000;
+            else if (jabatan == "Staff")
+                gaji = 5000000;
+            else
+                gaji = 0;
+
+            var tunjanganJabatan = 0.15 * gaji;
+            var bpjs = 0.10 * gaji;
+            var tunjanganKeluarga = (status == "menikah") ? (0.20 * gaji) : 0;
+            var totalGaji = gaji + tunjanganJabatan - bpjs + tunjanganKeluarga;
+
+            document.write("Nama : " + nama +
+                "<br><br>Jabatan : " + jabatan +
+                "<br><br>Status : " + status +
+                "<br><br>Gaji Pokok : " + gaji +
+                "<br><br>Tunjangan Jabatan : " + tunjanganJabatan +
+                "<br><br>BPJS : " + bpjs +
+                "<br><br>Tunjangan Keluarga : " + tunjanganKeluarga +
+                "<br><br>Total Gaji : " + totalGaji);
+        </script>
+    </body>
+</html>
