@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 3 Javascript</title>
+</head>
+<body>
+    <table border="1" style="padding: 10px; text-align: center; width: 100%;">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Pegawai</th>
+                <th>Jabatan</th>
+                <th>Gapok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>Tunjangan Kesehatan</th>
+                <th>Gaji Kotor</th>
+                <th>Agama</th>
+                <th>Take Home Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <script>
+                let pegawaiData = [
+                    { nama: "Pegawai1", gapok: 15000000 },
+                    { nama: "Pegawai2", gapok: 15000000 },
+                    { nama: "Pegawai3", gapok: 10000000 },
+                    { nama: "Pegawai4", gapok: 10000000 },
+                    { nama: "Pegawai5", gapok: 10000000 },
+                    { nama: "Pegawai6", gapok: 7000000 },
+                    { nama: "Pegawai7", gapok: 7000000 },
+                    { nama: "Pegawai8", gapok: 7000000 },
+                    { nama: "Pegawai9", gapok: 4000000 },
+                    { nama: "Pegawai10", gapok: 4000000 },
+                ];
+
+                let zakatPersent = 0.025; // 2.5%
+                for (let i = 0; i < pegawaiData.length; i++) {
+                    let nama = pegawaiData[i].nama;
+                    let gapok = pegawaiData[i].gapok;
+                    let jabatan = "";
+                    let tunjanganJabatan = 0;
+                    let tunjanganKesehatan = 0;
+                    let gajiKotor = 0;
+                    let agama = (i % 2 === 0) ? false : true; 
+
+                    // Menentukan jabatan
+                    if (i <= 1) {
+                        jabatan = "Manager";
+                    } else if (i >= 2 && i <= 4) {
+                        jabatan = "Asisten Manager";
+                    } else if (i >= 5 && i <= 7) {
+                        jabatan = "Supervisor";
+                    } else {
+                        jabatan = "Staff";
+                    }
+
+                    // Menghitung tunjangan jabatan
+                    switch (jabatan) {
+                        case "Manager":
+                            tunjanganJabatan = 0.2 * gapok;
+                            break;
+                        case "Asisten Manager":
+                            tunjanganJabatan = 0.2 * gapok;
+                            break;
+                        case "Supervisor":
+                            tunjanganJabatan = 0.2 * gapok;
+                            break;
+                        case "Staff":
+                            tunjanganJabatan = 0.2 * gapok;
+                            break;
+                        default:
+                            tunjanganJabatan = 0;
+                            break;
+                    }
+
+                    tunjanganKesehatan = 0.1 * gapok;
+                    gajiKotor = gapok + tunjanganJabatan + tunjanganKesehatan;
+
+                    let zakatProfesi = (agama && gajiKotor >= 7000000) ? zakatPersent * gajiKotor : 0;
+                    let takeHomePay = gajiKotor - zakatProfesi;
+                    let backgroundColor = agama ? "yellow" : "blue"; //warna bg berdasarkan agama 
+
+                    // Menampilkan data dalam tabel
+                    document.write(`
+                        <tr bgcolor="${backgroundColor}">
+                            <td>${i + 1}</td>
+                            <td>${nama}</td>
+                            <td>${jabatan}</td>
+                            <td>${gapok}</td>
+                            <td>${tunjanganJabatan}</td>
+                            <td>${tunjanganKesehatan}</td>
+                            <td>${gajiKotor}</td>
+                            <td>${agama ? "Muslim" : "Non Muslim"}</td>
+                            <td>${takeHomePay}</td>
+                        </tr>
+                    `);
+                }
+            </script>
+        </tbody>
+    </table>
+</body>
+</html>
