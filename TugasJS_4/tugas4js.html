@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online</title>
+</head>
+<body>
+    <form id="tokoForm">
+        <table style="width: 100%; background-color: pink; border: solid; text-align: center;">
+            <tr>
+                <th colspan="2" "> Form Toko Online <br><br></th>
+            </tr>
+            <tr>
+                <td><label for="nama">Nama Pelanggan:</label></td>
+                <td><input type="text" name="nama" id="nama" required></td>
+            </tr>
+            <tr>
+                <td><label for="produk">Produk:</label></td>
+                <td>
+                    <select name="produk" id="produk">
+                        <option value="">--</option>
+                        <option value="TV">TV</option>
+                        <option value="AC">AC</option>
+                        <option value="Kulkas">Kulkas</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="jumlah">Jumlah Item:</label></td>
+                <td><input type="number" name="jumlah" id="jumlah" required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" name="proses" value="Beli" onclick="transaksi()"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function transaksi() {
+            // Mendapat nilai dari inputan form
+            let nama = document.getElementById('nama').value;
+            let produk = document.getElementById('produk').value;
+            let jumlah = parseInt(document.getElementById('jumlah').value);
+
+            let hargaSatuan = 0;
+
+            // Menggunakan switch case utk menentukan harga produk
+            switch (produk) {
+                case 'TV':
+                    hargaSatuan = 2000000;
+                    break;
+                case 'AC':
+                    hargaSatuan = 3000000;
+                    break;
+                case 'Kulkas':
+                    hargaSatuan = 4000000;
+                    break;
+                default:
+                    alert('Produk tidak valid');
+                    return;
+            }
+            // menghitung harga kotor
+            let hargaKotor = hargaSatuan * jumlah;
+
+            let diskon = 0;
+            if (produk === 'Kulkas' && jumlah >= 3) {
+                diskon = 0.3 * hargaKotor;
+            } else if (produk === 'AC' && jumlah >= 3) {
+                diskon = 0.2 * hargaKotor;
+            } else {
+                diskon = 0.1 * hargaKotor;
+            }
+
+            let ppn = 0.1 * (hargaKotor - diskon);
+            let hargaBayar = (hargaKotor - diskon) + ppn;
+
+            // Menampilkan hasil dalam bentuk alert
+            let hasil = `Transaksi:
+            Nama Pelanggan: ${nama}
+            Produk yang dibeli: ${produk}
+            Harga Satuan: Rp ${hargaSatuan}
+            Jumlah Item Produk yang dibeli: ${jumlah}
+            Harga Kotor: Rp ${hargaKotor}
+            Diskon: Rp ${diskon}
+            PPN: Rp ${ppn}
+            Harga Bayar: Rp ${hargaBayar.toFixed(2)}`;
+                        
+                alert(hasil);
+            }
+    </script>
+</body>
+</html>
+
