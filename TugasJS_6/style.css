@@ -1,0 +1,21 @@
+#info-container {
+    text-align: center;
+    margin-top: 20px;
+}
+body{
+    text-align: center;
+    margin: auto;
+    background-color: rgb(249, 213, 219);
+}
+#div1, #div2, #div3{
+    cursor: pointer;
+}
+
+#info {
+    background-color: palevioletred;
+    color: white;
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+    border: 3px solid #302121;
+}

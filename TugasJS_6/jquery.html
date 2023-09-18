@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Data untuk masing-masing bidang
+            var data = {
+                profile: "Nama: Isra Septia Cahyani<br>Usia: 19 Tahun<br>Hobby: Bulu Tangkis<br>Pekerjaan: Mahasiswa<br>Pendidikan: Universitas Tadulako<br>Prodi: Teknik Informatika ",
+                "motohidup": "Moto Hidup: <br> Jadilah dirimu sendiri, Karena setiap orang adalah unik dan berharga dalam perjalanan hidupnya.",
+                keahlian: "Keahlian:<br> HTML dan CSS"
+            };
+            // Mengatur ketika kotak-kotak di klik
+            $("#div1").click(function(){
+                showInfo("profile");
+            });
+            $("#div2").click(function(){
+                showInfo("motohidup");
+            });
+            $("#div3").click(function(){
+                showInfo("keahlian");
+            });
+            // menampilkan informasi sesuai dengan bidang yang dipilih
+            function showInfo(bidang) {
+                $("#info").html(data[bidang]);
+                $("#info-container").show();
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1><u>Isra Septia cahyani</u></h1>
+    <h3>Klik salah satu bidang untuk melihat informasi data !</h3>
+    <div id="div1">Profile</div>
+    <div id="div2">Moto Hidup</div>
+    <div id="div3">Keahlian</div>
+
+    <div id="info-container">
+        <div id="info"></div>
+    </div>
+</body>
+</html>
