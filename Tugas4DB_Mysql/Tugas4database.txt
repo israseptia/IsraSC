@@ -1,0 +1,134 @@
+
+MariaDB [(none)]> USE dbpos;
+Database changed
+MariaDB [dbpos]> SELECT id, nama, DATEDIFF(CURDATE(), tgl_lahir) AS umur,
+    -> CASE
+    -> WHEN DATEDIFF(CURDATE(), tgl_lahir) < 17 THEN 'MUDA'
+    -> WHEN DATEDIFF(CURDATE(), tgl_lahir) BETWEEN 17 AND 55 THEN 'DEWASA'
+    -> ELSE 'Tua'
+    -> END AS Kategori_Umur
+    -> FROM pelanggan;
++----+---------+------+---------------+
+| id | nama    | umur | Kategori_Umur |
++----+---------+------+---------------+
+|  1 | Isra    | 7321 | Tua           |
+|  2 | Septia  | 7320 | Tua           |
+|  3 | Cahyani | 7319 | Tua           |
+|  4 | Iska    | 5523 | Tua           |
+|  5 | Tri     | 5522 | Tua           |
+|  6 | Gus     | 8318 | Tua           |
+|  7 | Fiani   | 8286 | Tua           |
+|  8 | Dimas   | 8522 | Tua           |
+|  9 | Aldi    | 7892 | Tua           |
+| 10 | pratama | 7129 | Tua           |
++----+---------+------+---------------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT id, kode, nama,
+    -> CASE
+    -> WHEN kode = 'j001' THEN 'baju'
+    -> WHEN kode = 'v001' THEN 'Cermin'
+    -> ELSE 'Tidak Ada'
+    -> END AS Bonus
+    -> FROM produk;
++----+------+----------------+-----------+
+| id | kode | nama           | Bonus     |
++----+------+----------------+-----------+
+|  1 | k001 | kulkas 2 pintu | Tidak Ada |
+|  2 | l001 | Meja makan     | Tidak Ada |
+|  3 | p001 | buku tulis     | Tidak Ada |
+|  4 | m001 | lemari         | Tidak Ada |
+|  5 | j001 | baju           | baju      |
+|  6 | r001 | Ransel         | Tidak Ada |
+|  7 | v001 | Cermin         | Cermin    |
+|  8 | e001 | Helmet         | Tidak Ada |
+|  9 | y001 | Televisi       | Tidak Ada |
+| 10 | q001 | Boneka         | Tidak Ada |
++----+------+----------------+-----------+
+10 rows in set (0.001 sec)
+
+//Soal 3.4
+MariaDB [dbpos]> SELECT tmp_lahir, COUNT(tmp_lahir) AS Jumlah_Pelanggan
+    -> FROM pelanggan
+    -> GROUP BY tmp_lahir;
++------------+------------------+
+| tmp_lahir  | Jumlah_Pelanggan |
++------------+------------------+
+| Bandung    |                1 |
+| Bogor      |                1 |
+| Kalimantan |                1 |
+| Lampung    |                1 |
+| Makassar   |                1 |
+| Palu       |                2 |
+| parigi     |                3 |
++------------+------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT jenis_produk_id, COUNT(*) AS Jumlah_Produk
+    -> FROM produk
+    -> GROUP BY jenis_produk_id;
++-----------------+---------------+
+| jenis_produk_id | Jumlah_Produk |
++-----------------+---------------+
+|               1 |             1 |
+|               2 |             1 |
+|               3 |             1 |
+|               4 |             1 |
+|               5 |             1 |
+|               6 |             1 |
+|               7 |             1 |
+|               8 |             1 |
+|               9 |             1 |
+|              10 |             1 |
++-----------------+---------------+
+10 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT id, nama, DATEDIFF(CURDATE(), tgl_lahir) AS umur
+    -> FROM pelanggan
+    -> HAVING umur < (SELECT AVG(DATEDIFF(CURDATE(), tgl_lahir)) FROM pelanggan);
++----+---------+------+
+| id | nama    | umur |
++----+---------+------+
+|  4 | Iska    | 5523 |
+|  5 | Tri     | 5522 |
+| 10 | pratama | 7129 |
++----+---------+------+
+3 rows in set (0.003 sec)
+
+MariaDB [dbpos]> SELECT id, kode, nama
+    -> FROM produk
+    -> WHERE harga_jual > (SELECT AVG(harga_jual) FROM produk);
++----+------+----------------+
+| id | kode | nama           |
++----+------+----------------+
+|  1 | k001 | kulkas 2 pintu |
+|  9 | y001 | Televisi       |
++----+------+----------------+
+2 rows in set (0.003 sec)
+
+MariaDB [dbpos]> SELECT id, kode, nama
+    -> FROM pelanggan
+    -> WHERE kartu_id IN (SELECT id FROM kartu WHERE iuran > 90000);
+Empty set (0.026 sec)
+
+MariaDB [dbpos]> SELECT id, kode, nama
+    -> FROM pelanggan
+    -> WHERE kartu_id IN (SELECT id FROM kartu WHERE iuran > 20000);
+Empty set (0.001 sec)
+
+MariaDB [dbpos]> SELECT MIN(harga_jual) AS Harga_Terendah, MAX(harga_jual) AS Harga_Tertinggi, AVG(harga_jual) AS Rata_Rata
+    -> FROM produk;
++----------------+-----------------+-----------+
+| Harga_Terendah | Harga_Tertinggi | Rata_Rata |
++----------------+-----------------+-----------+
+|           6000 |         6800000 |   1334100 |
++----------------+-----------------+-----------+
+1 row in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT p.id, p.kode, p.nama, k.diskon
+    -> FROM pelanggan p
+    -> JOIN kartu k ON p.kartu_id = k.id
+    -> WHERE k.diskon > 3;
+Empty set (0.001 sec)
+
+MariaDB [dbpos]>
