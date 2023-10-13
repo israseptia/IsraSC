@@ -1,0 +1,50 @@
+MariaDB [(none)]> use dbpos;
+Database changed
+MariaDB [dbpos]> SELECT pesanan.id, pesanan.tanggal, pesanan.total, pelanggan.kode, pelanggan.nama, kartu.nama as nama_kartu, kartu.diskon
+    -> FROM pesanan
+    -> INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+    -> INNER JOIN kartu ON pelanggan.kartu_id = kartu.id;
++----+------------+--------+------+---------+------------+--------+
+| id | tanggal    | total  | kode | nama    | nama_kartu | diskon |
++----+------------+--------+------+---------+------------+--------+
+|  1 | 2023-10-01 | 250000 | C001 | Isra    | Emas       |    0.1 |
+|  3 | 2023-10-03 | 420000 | C001 | Isra    | Emas       |    0.1 |
+|  2 | 2023-10-02 | 350000 | C002 | Septia  | Perak      |   0.05 |
+|  5 | 2023-10-05 | 320000 | C002 | Septia  | Perak      |   0.05 |
+|  4 | 2023-10-04 | 180000 | C003 | Cahyani | Perunggu   |   0.03 |
++----+------------+--------+------+---------+------------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT pembelian.id, pembelian.tanggal, pembelian.nomor, pembelian.jumlah, pembelian.harga, produk.nama, vendor.nama_vendor, vendor.kontak
+    -> FROM pembelian
+    -> INNER JOIN produk ON pembelian.produk_id = produk.id
+    -> INNER JOIN vendor ON pembelian.vendor_id = vendor.id;
++----+------------+------------+--------+--------+----------------------+--------------------+------------+
+| id | tanggal    | nomor      | jumlah | harga  | nama                 | nama_vendor        | kontak     |
++----+------------+------------+--------+--------+----------------------+--------------------+------------+
+|  1 | 2023-10-01 | PY-2023001 |      5 | 250000 | Televisi LED 32"     | CV Elektronik Jaya | 0812345678 |
+|  3 | 2023-10-03 | PY-2023003 |      2 | 420000 | Air Mineral 600ml    | CV Elektronik Jaya | 0812345678 |
+|  2 | 2023-10-02 | PY-2023002 |      3 | 350000 | Mie Instan Rasa Ayam | PT Makanan Enak    | 0812456789 |
+|  5 | 2023-10-05 | PY-2023005 |      6 | 320000 | Vitamin C 500mg      | PT Makanan Enak    | 0812456789 |
+|  4 | 2023-10-04 | PY-2023004 |      4 | 180000 | Kemeja Pria Biru     | UD Minuman Sejuk   | 0812567890 |
++----+------------+------------+--------+--------+----------------------+--------------------+------------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpos]> SELECT pesanan.id, pesanan.tanggal, pesanan.total, pelanggan.nama AS pelanggan_nama, pelanggan.kode AS pelanggan_kode, produk.nama AS produk_nama, jenis_produk.nama AS jenis_produk_nama, pesanan_items.jumlah, pesanan_items.harga
+    -> FROM pesanan
+    -> INNER JOIN pelanggan ON pesanan.pelanggan_id = pelanggan.id
+    -> INNER JOIN pesanan_items ON pesanan.id = pesanan_items.pesanan_id
+    -> INNER JOIN produk ON pesanan_items.produk_id = produk.id
+    -> INNER JOIN jenis_produk ON produk.jenis_produk_id = jenis_produk.id;
++----+------------+--------+----------------+----------------+----------------------+-------------------+--------+--------+
+| id | tanggal    | total  | pelanggan_nama | pelanggan_kode | produk_nama          | jenis_produk_nama | jumlah | harga  |
++----+------------+--------+----------------+----------------+----------------------+-------------------+--------+--------+
+|  1 | 2023-10-01 | 250000 | Isra           | C001           | Televisi LED 32"     | Elektronik        |      2 |  50000 |
+|  2 | 2023-10-02 | 350000 | Septia         | C002           | Air Mineral 600ml    | Minuman           |      4 | 140000 |
+|  3 | 2023-10-03 | 420000 | Isra           | C001           | Mie Instan Rasa Ayam | Makanan           |      1 |  35000 |
+|  4 | 2023-10-04 | 180000 | Cahyani        | C003           | Kemeja Pria Biru     | Pakaian           |      3 |  54000 |
+|  5 | 2023-10-05 | 320000 | Septia         | C002           | Vitamin C 500mg      | Kesehatan         |      5 |  80000 |
++----+------------+--------+----------------+----------------+----------------------+-------------------+--------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbpos]>
