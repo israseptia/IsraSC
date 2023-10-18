@@ -1,0 +1,60 @@
+//
+MariaDB [dbpos3]> DELIMITER $$
+MariaDB [dbpos3]> CREATE PROCEDURE pro_naik(
+    -> IN jenis_produk INT,
+    -> IN persentasi_kenaikan INT)
+    -> BEGIN
+    -> UPDATE produk SET harga_jual = harga_jual + (harga_jual * presentasi_kenaikan /100)
+    -> WHERE jenis_produk_id = jenis_produk;
+    -> END $$
+Query OK, 0 rows affected (0.010 sec)
+
+//
+MariaDB [dbpos3]> DELIMITER $$
+MariaDB [dbpos3]> CREATE FUNCTION umur(tgl_lahir DATE)
+    -> RETURNS INT
+    -> BEGIN
+    -> DECLARE umur INT;
+    -> SET umur = YEAR(CURDATE()) - YEAR(tgl_lahir);
+    -> RETURN umur;
+    -> END $$
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [dbpos3]> DELIMITER ;
+MariaDB [dbpos3]> SELECT * FROM pelanggan;
++----+------+---------------+------+------------+------------+----------------------+----------+
+| id | kode | nama          | jk   | tmp_lahir  | tgl_lahir  | email                | kartu_id |
++----+------+---------------+------+------------+------------+----------------------+----------+
+|  1 | C001 | Agung Sedayu  | L    | Solo       | 2010-01-01 | sedayu@gmail.com     |        1 |
+|  2 | C002 | Pandan Wangi  | P    | Yogyakarta | 1950-01-01 | wangi@gmail.com      |        2 |
+|  3 | C003 | Sekar Mirah   | P    | Kediri     | 1983-02-20 | mirah@yahoo.com      |        1 |
+|  4 | C004 | Swandaru Geni | L    | Kediri     | 1981-01-04 | swandaru@yahoo.com   |        4 |
+|  5 | C005 | Pradabashu    | L    | Pati       | 1985-04-02 | prada85@gmail.com    |        2 |
+|  6 | C006 | Gayatri Dwi   | P    | Jakarta    | 1987-11-28 | gaya87@gmail.com     |        1 |
+|  7 | C007 | Dewi Gyat     | P    | Jakarta    | 1988-12-01 | giyat@gmail.com      |        1 |
+|  8 | C008 | Andre Haru    | L    | Surabaya   | 1990-07-15 | andre.haru@gmail.com |        4 |
+|  9 | C009 | Ahmad Hasan   | L    | Surabaya   | 1992-10-15 | ahasan@gmail.com     |        4 |
+| 10 | C010 | Cassanndra    | P    | Belfast    | 1990-11-20 | casa90@gmail.com     |        1 |
++----+------+---------------+------+------------+------------+----------------------+----------+
+10 rows in set (0.018 sec)
+
+//
+MariaDB [dbpos3]> DELIMITER $$
+MariaDB [dbpos3]> CREATE FUNCTION kategori_harga(harga double)
+    -> RETURNS VARCHAR(20)
+    -> BEGIN
+    -> DECLARE kategori VARCHAR(20);
+    -> IF harga <= 500000 THEN
+    -> SET kategori = 'murah';
+    -> ELSEIF harga <= 3000000 THEN
+    -> SET kategori = 'sedang';
+    -> ELSEIF harga <= 10000000 THEN
+    -> SET kategori = 'mahal';
+    -> ELSE
+    -> SET kategori = 'sangat mahal';
+    -> END IF;
+    -> RETURN kategori;
+    -> END $$
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [dbpos3]> DELIMITER ;
